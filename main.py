@@ -109,7 +109,7 @@ class Goblin:
     
     def __str__(self):
         """Basic representation of a goblin on screen."""
-        return "G1"
+        return "G"
             
 def display_grid():
     """Displays the grid on the screen."""
