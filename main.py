@@ -1,4 +1,5 @@
 from typing import Any, Literal
+from random import randint
 
 class Wall:
     """Non empty class to represent a wall."""
@@ -55,8 +56,24 @@ class Goblin:
         """Remove object located on our own coordinates."""
         return self.map.empty_position(self.x_axis, self.y_axis)
 
-    def move(self, direction: Literal["up", "down", "left", "right"]) -> None:
+    def act(self):
+        if False:
+            pass
+        else:
+            self.roam()
+
+    def roam(self) -> None:
+        """Roam aimlessly throughout the map."""
+        direction_int = randint(0,3)
+        self.move(direction_int)
+
+    def move(self, direction: Literal["up", "down", "left", "right"] | Literal[0,1,2,3]) -> None:
         """Logic for movement within the grid."""
+        if isinstance(direction, int):
+            if direction < 0 or direction > 3:
+                raise ValueError("Direction int outside of allowed range")
+            direction = ["up", "down", "left", "right"][direction]
+
         match direction:
             case "up":
                 new_y = self.y_axis + 1
@@ -92,7 +109,7 @@ class Goblin:
     
     def __str__(self):
         """Basic representation of a goblin on screen."""
-        return "G"
+        return "G1"
             
 def display_grid():
     """Displays the grid on the screen."""
@@ -101,19 +118,13 @@ def display_grid():
         print(" ".join("." if cell is None else str(cell) for cell in row), end="\n")
             
 if __name__ == "__main__":
-    g = Goblin()
+    from time import sleep
+    g1 = Goblin()
+    g2 = Goblin(9, 9)
     while True:
+        g1.act()
+        g2.act()
         display_grid()
-        player_input = input()
-        match player_input:
-            case "w":
-                g.move("up")
-            case "s":
-                g.move("down")
-            case "d":
-                g.move("right")
-            case "a": 
-                g.move("left")
-            case "q":
-                break
+        sleep(1)
+
     
