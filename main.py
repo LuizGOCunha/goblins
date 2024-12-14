@@ -1,8 +1,11 @@
-from typing import Any, Literal
+from typing import Any, Literal, Iterable
 from random import randint
 
 class Wall:
     """Non empty class to represent a wall."""
+    
+    def __str__(self):
+        return "W"
 
 class Map:
     """Map object that will contain all sorts of objects for interacting."""
@@ -33,6 +36,18 @@ class Map:
     def empty_position(self, x_axis: int, y_axis: int) -> None:
         self.grid[y_axis][x_axis] = None
 
+    def validate_coordinates(self, coordinates: Iterable[tuple[int, int]]) -> list:
+        """Check if coordinates given in a list are valid, return a list with validated coordinates."""
+        validated_coordinates = []
+        for coordinate in coordinates:
+            x, y = coordinate
+            if y > len(self.grid) - 1 or y < 0 or x > len(self.grid[0]) - 1 or x < 0:
+                continue
+            else:
+                validated_coordinates.append(coordinate)
+
+        return validated_coordinates
+
     
 MAP = Map()
 GRID = MAP.grid
@@ -61,6 +76,11 @@ class Goblin:
             pass
         else:
             self.roam()
+
+    @property
+    def surroundings(self):
+        """Return the surrounding coordenates for a character."""
+        return self.map.validate_coordinates([(self.x_axis + i, self.y_axis + ii) for i in range(-1, 2) for ii in range(-1, 2)])
 
     def roam(self) -> None:
         """Roam aimlessly throughout the map."""
