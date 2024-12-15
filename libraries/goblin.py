@@ -1,4 +1,4 @@
-from typing import Literal
+from typing import Literal, Any
 from random import randint
 
 from libraries.map import MAP
@@ -34,18 +34,42 @@ class Goblin:
             self.roam()
 
     @property
+    def far_surroundings(self):
+        """Return the far surrounding (7x7) coordenates for a character."""
+        return self.map.validate_coordinates(
+            [(self.x_axis + i, self.y_axis + ii) for i in range(-3, 4) for ii in range(-3, 4)]
+        )
+
+    @property
     def surroundings(self):
-        """Return the surrounding coordenates for a character."""
+        """Return the surrounding (5x5) coordenates for a character."""
         return self.map.validate_coordinates(
             [(self.x_axis + i, self.y_axis + ii) for i in range(-2, 3) for ii in range(-2, 3)]
         )
 
     @property
     def close_surroundings(self):
-        """Return the surrounding coordenates for a character."""
+        """Return the close surrounding (3x3) coordenates for a character."""
         return self.map.validate_coordinates(
             [(self.x_axis + i, self.y_axis + ii) for i in range(-1, 2) for ii in range(-1, 2)]
         )
+
+    def has_object_in_vicinity(self, vicinity: Literal["close", "mid", "far"], type: type) -> Any | None:
+        """Checks if there is an object in the vicinity of the goblin, returns the first one."""
+        match vicinity:
+            case "close":
+                vicinity_coord = self.close_surroundings
+            case "mid":
+                vicinity_coord = self.surroundings
+            case "far":
+                vicinity_coord = self.far_surroundings
+
+        # TODO: add something that returns the coordenates in order of closeness
+
+        for x, y in vicinity_coord:
+            area_object = self.map.get_object_in_position(x, y)
+            if isinstance(area_object, type) and area_object is not self:
+                return area_object
 
     def roam(self) -> None:
         """Roam aimlessly throughout the map."""
