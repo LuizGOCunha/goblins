@@ -41,7 +41,7 @@ class Map:
 
         return validated_coordinates
 
-    
+
 MAP = Map()
 GRID = MAP.grid
 
@@ -59,7 +59,7 @@ class Goblin:
     def add_self_to_coordinates(self) -> None:
         """Use our own coordinates to insert ourselves in the map."""
         return self.map.add_object_in_position(self, self.x_axis, self.y_axis)
-        
+
     def remove_self_from_coordinates(self) -> None:
         """Remove object located on our own coordinates."""
         return self.map.empty_position(self.x_axis, self.y_axis)
@@ -119,17 +119,19 @@ class Goblin:
             case _:
                 raise ValueError("Invalid direction.")
         print((self.x_axis, self.y_axis))
-    
+
     def __str__(self):
         """Basic representation of a goblin on screen."""
         return "G"
-            
-def display_grid():
+
+
+def display_grid() -> None:
     """Displays the grid on the screen."""
     print("-" * 2 * len(GRID))
     for row in GRID[::-1]:
         print(" ".join("." if cell is None else str(cell) for cell in row), end="\n")
-            
+
+
 if __name__ == "__main__":
     from time import sleep
     g1 = Goblin()
@@ -139,5 +141,3 @@ if __name__ == "__main__":
         g2.act()
         display_grid()
         sleep(1)
-
-    
