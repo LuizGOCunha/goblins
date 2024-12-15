@@ -9,18 +9,11 @@ class Wall:
 
 class Map:
     """Map object that will contain all sorts of objects for interacting."""
-    grid: list[list[Any]] = [
-        [None, None, None, None, None, None, None, None, None, None,],
-        [None, None, None, None, None, None, None, None, None, None,],
-        [None, None, None, None, None, None, None, None, None, None,],
-        [None, None, None, None, None, None, None, None, None, None,],
-        [None, None, None, None, None, None, None, None, None, None,],
-        [None, None, None, None, None, None, None, None, None, None,],
-        [None, None, None, None, None, None, None, None, None, None,],
-        [None, None, None, None, None, None, None, None, None, None,],
-        [None, None, None, None, None, None, None, None, None, None,],
-        [None, None, None, None, None, None, None, None, None, None,],
-    ]
+    X_SIZE = 10
+    Y_SIZE = 10
+
+    def __init__(self):
+        self.grid: list[list[Any]] = [[None for _ in range(self.X_SIZE)] for _ in range(self.Y_SIZE)]
 
     def get_object_in_position(self, x_axis: int, y_axis: int) -> Any | Wall:
         if x_axis < 0 or y_axis < 0:
@@ -41,7 +34,7 @@ class Map:
         validated_coordinates = []
         for coordinate in coordinates:
             x, y = coordinate
-            if y > len(self.grid) - 1 or y < 0 or x > len(self.grid[0]) - 1 or x < 0:
+            if y > self.Y_SIZE - 1 or y < 0 or x > self.X_SIZE - 1 or x < 0:
                 continue
             else:
                 validated_coordinates.append(coordinate)
