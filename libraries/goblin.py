@@ -37,11 +37,19 @@ class Goblin:
     def surroundings(self):
         """Return the surrounding coordenates for a character."""
         return self.map.validate_coordinates(
+            [(self.x_axis + i, self.y_axis + ii) for i in range(-2, 3) for ii in range(-2, 3)]
+        )
+
+    @property
+    def close_surroundings(self):
+        """Return the surrounding coordenates for a character."""
+        return self.map.validate_coordinates(
             [(self.x_axis + i, self.y_axis + ii) for i in range(-1, 2) for ii in range(-1, 2)]
         )
 
     def roam(self) -> None:
         """Roam aimlessly throughout the map."""
+        print(f"Goblin {self} is roaming...")
         direction_int = randint(0, 3)
         self.move(direction_int)
 
@@ -83,7 +91,6 @@ class Goblin:
                     self.add_self_to_coordinates()
             case _:
                 raise ValueError("Invalid direction.")
-        print((self.x_axis, self.y_axis))
 
     def __str__(self):
         """Basic representation of a goblin on screen."""
