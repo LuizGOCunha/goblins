@@ -8,9 +8,11 @@ class Goblin:
     """Goblin object."""
 
     map = MAP
+    name = "G"
 
-    def __init__(self, x_axis: int = 0, y_axis: int = 0) -> None:
+    def __init__(self, name: str, x_axis: int = 0, y_axis: int = 0) -> None:
         """Initializing a goblin."""
+        self.name = name
         self.health = 100
         self.attack = 10
         self.gold = 5
@@ -85,4 +87,4 @@ class Goblin:
 
     def __str__(self):
         """Basic representation of a goblin on screen."""
-        return "G"
+        return self.name
