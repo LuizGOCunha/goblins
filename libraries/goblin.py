@@ -1,7 +1,7 @@
 from typing import Literal
 from random import randint
 
-from map import MAP
+from libraries.map import MAP
 
 
 class Goblin:

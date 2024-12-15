@@ -1,4 +1,4 @@
-from map import GRID
+from libraries.map import GRID
 
 
 def display_grid() -> None:

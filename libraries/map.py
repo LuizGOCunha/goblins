@@ -1,6 +1,6 @@
 from typing import Any, Iterable
 
-from wall import Wall
+from libraries.wall import Wall
 
 
 class Map:

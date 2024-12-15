@@ -1,5 +1,5 @@
-from goblin import Goblin
-from display import display_grid
+from libraries.goblin import Goblin
+from libraries.display import display_grid
 
 
 if __name__ == "__main__":
