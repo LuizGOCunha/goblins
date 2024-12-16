@@ -4,6 +4,7 @@ from unittest import TestCase
 
 
 class MapTest(TestCase):
+    """Tests for the Map object"""
     def setUp(self):
         self.map = Map()
 
