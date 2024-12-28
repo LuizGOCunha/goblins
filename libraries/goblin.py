@@ -123,10 +123,12 @@ class Goblin:
             return damage * d6(), False
 
     def roam(self) -> None:
-        """Roam aimlessly throughout the map."""
+        """Roam aimlessly throughout the map, with a chance of not moving at all"""
         print(f"Goblin {self} is roaming...")
-        direction_int = randint(0, 3)
-        self.move(direction_int)
+        direction_int = randint(0, 6)
+        # Here we have a chance of not moving since the int can also be 4, 5 or 6
+        if 0 <= direction_int < 4:
+            self.move(direction_int)
 
     def move(self, direction: Literal["up", "down", "left", "right"] | Literal[0, 1, 2, 3]) -> None:
         """Logic for movement within the grid."""
