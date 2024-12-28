@@ -93,7 +93,7 @@ class Goblin:
         self._damage_target(target)
 
         if target.is_dead:
-            self.add_object_to_my_coordinates(DeadBody(type(target)))
+            target.add_object_to_my_coordinates(DeadBody(type(target)))
 
     def _damage_target(self, target: Goblin) -> None:
         """Damages target and logs the result."""
