@@ -1,7 +1,10 @@
+from __future__ import annotations
 from typing import Literal, Any
 from random import randint
 
 from libraries.map import MAP
+from libraries.dice import d6, d20
+from libraries.dead_body import DeadBody
 
 
 class Goblin:
@@ -13,11 +16,12 @@ class Goblin:
     def __init__(self, name: str, x_axis: int = 0, y_axis: int = 0) -> None:
         """Initializing a goblin."""
         self.name = name
-        self.health = 100
-        self.attack = 10
+        self.health = 500
+        self.damage = 10
         self.gold = 5
         self.x_axis, self.y_axis = x_axis, y_axis
         self.add_self_to_coordinates()
+        self.being_attacked_by = []
 
     def add_self_to_coordinates(self) -> None:
         """Use our own coordinates to insert ourselves in the map."""
@@ -27,11 +31,22 @@ class Goblin:
         """Remove object located on our own coordinates."""
         return self.map.empty_position(self.x_axis, self.y_axis)
 
+    def add_object_to_my_coordinates(self, object: Any) -> None:
+        """Adds a given object to our position."""
+        return self.map.add_object_in_position(object, self.x_axis, self.y_axis)
+
     def act(self):
-        if False:
-            pass
+        if self.is_dead:
+            return
+
+        if object := self.has_object_in_vicinity("close", Goblin):
+            self.attack(object)
         else:
             self.roam()
+
+    @property
+    def is_dead(self):
+        return self.health <= 0
 
     @property
     def far_surroundings(self):
@@ -70,6 +85,42 @@ class Goblin:
             area_object = self.map.get_object_in_position(x, y)
             if isinstance(area_object, type) and area_object is not self:
                 return area_object
+
+    def attack(self, target: Goblin) -> None:
+        if self not in target.being_attacked_by:
+            target.being_attacked_by.append(self)
+
+        self._damage_target(target)
+
+        if target.is_dead:
+            self.add_object_to_my_coordinates(DeadBody(type(target)))
+
+    def _damage_target(self, target: Goblin) -> None:
+        """Damages target and logs the result."""
+        damage, is_crit = self._calculate_damage()
+
+        if damage is None:
+            print(f"{self} tries to cleave {target} but misses.")
+            return
+        elif is_crit:
+            print(f"{self} stabs {target} on his side. The wound is deep. <{damage} DAMAGE>")
+        else:
+            print(f"{self} slices into {target}, blood is flowing. <{damage} DAMAGE>")
+
+        target.health -= damage
+
+    def _calculate_damage(self) -> tuple[None | int, bool]:
+        """Calculates the damage that will be given to the target."""
+        accuracy = d20()
+        damage = self.damage
+        if accuracy == 20:
+            # TODO: substitute the d6 with a weapon based roll
+            return damage * 2 * d6(), True
+        # TODO: add accuracy stat, will substitute the '10' bellow
+        elif accuracy < 10:
+            return None, False
+        else:
+            return damage * d6(), False
 
     def roam(self) -> None:
         """Roam aimlessly throughout the map."""
