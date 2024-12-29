@@ -1,4 +1,4 @@
-from libraries.goblin import Goblin
+from libraries.characters.goblin import Goblin
 from libraries.display import display_grid
 
 

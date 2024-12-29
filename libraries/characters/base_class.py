@@ -7,18 +7,18 @@ from libraries.dice import d6, d20
 from libraries.dead_body import DeadBody
 
 
-class Goblin:
-    """Goblin object."""
+class Character:
+    """Character object."""
 
     map = MAP
-    name = "G"
+    name = "C"
+    health = None
+    damage = None
+    gold = None
 
     def __init__(self, name: str, x_axis: int = 0, y_axis: int = 0) -> None:
         """Initializing a goblin."""
         self.name = name
-        self.health = 500
-        self.damage = 10
-        self.gold = 5
         self.x_axis, self.y_axis = x_axis, y_axis
         self.add_self_to_coordinates()
         self.being_attacked_by = []
@@ -39,7 +39,7 @@ class Goblin:
         if self.is_dead:
             return
 
-        if object := self.has_object_in_vicinity("close", Goblin):
+        if object := self.has_object_in_vicinity("close", Character):
             self.attack(object)
         else:
             self.roam()
@@ -86,7 +86,7 @@ class Goblin:
             if isinstance(area_object, type) and area_object is not self:
                 return area_object
 
-    def attack(self, target: Goblin) -> None:
+    def attack(self, target: Character) -> None:
         if self not in target.being_attacked_by:
             target.being_attacked_by.append(self)
 
@@ -95,7 +95,7 @@ class Goblin:
         if target.is_dead:
             target.add_object_to_my_coordinates(DeadBody(type(target)))
 
-    def _damage_target(self, target: Goblin) -> None:
+    def _damage_target(self, target: Character) -> None:
         """Damages target and logs the result."""
         damage, is_crit = self._calculate_damage()
 
@@ -123,10 +123,12 @@ class Goblin:
             return damage * d6(), False
 
     def roam(self) -> None:
-        """Roam aimlessly throughout the map."""
+        """Roam aimlessly throughout the map, with a chance of not moving at all"""
         print(f"Goblin {self} is roaming...")
-        direction_int = randint(0, 3)
-        self.move(direction_int)
+        direction_int = randint(0, 6)
+        # Here we have a chance of not moving since the int can also be 4, 5 or 6
+        if 0 <= direction_int < 4:
+            self.move(direction_int)
 
     def move(self, direction: Literal["up", "down", "left", "right"] | Literal[0, 1, 2, 3]) -> None:
         """Logic for movement within the grid."""
