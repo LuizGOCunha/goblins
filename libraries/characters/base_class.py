@@ -15,6 +15,7 @@ class Character:
     health = None
     damage = None
     gold = None
+    aggression = 0
 
     def __init__(self, name: str, x_axis: int = 0, y_axis: int = 0) -> None:
         """Initializing a goblin."""
@@ -90,6 +91,9 @@ class Character:
         if self not in target.being_attacked_by:
             target.being_attacked_by.append(self)
 
+        if target.aggression < 100:
+            target.aggression += 100
+
         self._damage_target(target)
 
         if target.is_dead:
@@ -122,9 +126,10 @@ class Character:
         else:
             return damage * d6(), False
 
-    def roam(self) -> None:
+    def roam(self, logging=True) -> None:
         """Roam aimlessly throughout the map, with a chance of not moving at all"""
-        print(f"Goblin {self} is roaming...")
+        if logging:
+            print(f"Goblin {self} is roaming...")
         direction_int = randint(0, 6)
         # Here we have a chance of not moving since the int can also be 4, 5 or 6
         if 0 <= direction_int < 4:
