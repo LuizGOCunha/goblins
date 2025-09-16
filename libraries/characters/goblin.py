@@ -20,7 +20,7 @@ class Goblin(Character):
         self.gold = 5
         self.aggression = 0
 
-    def act(self):
+    def act(self) -> None:
         if self.is_dead:
             return
 
@@ -41,7 +41,7 @@ class Goblin(Character):
         else:
             self.roam()
 
-    def ostracize(self, target: Goblin, aggression_level: Literal[1, 2, 3]):
+    def ostracize(self, target: Goblin, aggression_level: Literal[1, 2, 3]) -> None:
         """Elevates the aggression level of a goblin nearby."""
         aggravation = d6() * aggression_level
 

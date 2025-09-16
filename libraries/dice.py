@@ -1,15 +1,15 @@
 from random import randint
 
 
-def d6():
+def d6() -> int:
     return randint(1, 6)
 
 
-def d10():
+def d10() -> int:
     return randint(1, 10)
 
 
-def d20():
+def d20() -> int:
     return randint(1, 20)
 
 

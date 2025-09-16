@@ -4,7 +4,7 @@ from typing import Any
 class DeadBody:
     """A dead body. TBI"""
 
-    def __init__(self, creature_type: Any):
+    def __init__(self, creature_type: Any) -> None:
         from libraries.characters.goblin import Goblin
         from libraries.characters.base_class import Character
 
@@ -16,10 +16,10 @@ class DeadBody:
             self.pounds_of_meat = 0
 
     @property
-    def is_depleted(self):
+    def is_depleted(self) -> int:
         """Checks if the amount of meat in a corpse is depleted."""
         return self.pounds_of_meat <= 0
 
-    def __str__(self):
+    def __str__(self) -> str:
         """Basic representation of a goblin on screen."""
         return "D"

@@ -9,7 +9,7 @@ class Map:
     X_SIZE = 10
     Y_SIZE = 10
 
-    def __init__(self):
+    def __init__(self) -> None:
         self.grid: list[list[Any]] = [[None for _ in range(self.X_SIZE)] for _ in range(self.Y_SIZE)]
 
     def get_object_in_position(self, x_axis: int, y_axis: int) -> Any | Wall:
