@@ -6,3 +6,4 @@ Notes:
 - Everything occurs within a map instance that is generated directly on the `libraries.map` lib.
 - At the moment only Goblins are being simulated, more creatures to be added in the future.
 - Goblins roam, yell at others and attack if sufficiently irritated.
+- Goblins have an inventory where they can hold items that they find.

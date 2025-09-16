@@ -5,6 +5,8 @@ from random import randint
 from libraries.characters.base_class import Character
 from libraries.word_lists import INSULTING_ADJECTIVES, INSULTING_NOUNS
 from libraries.dice import d6
+from libraries.inventory import Inventory
+from libraries.items.base_class import Item
 
 
 class Goblin(Character):
@@ -19,6 +21,7 @@ class Goblin(Character):
         self.damage = 10
         self.gold = 5
         self.aggression = 0
+        self.inventory = Inventory()
 
     def act(self) -> None:
         if self.is_dead:
@@ -40,6 +43,9 @@ class Goblin(Character):
 
         else:
             self.roam()
+
+    def add_to_inventory(self, item: Item) -> None:
+        self.inventory.add_item(item)
 
     def ostracize(self, target: Goblin, aggression_level: Literal[1, 2, 3]) -> None:
         """Elevates the aggression level of a goblin nearby."""
